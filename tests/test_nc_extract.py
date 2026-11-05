@@ -357,6 +357,18 @@ class FormatTests(Base):
         self.assertEqual(code, 0)
         self.assertIn("SUPPORT CUT OFF", out)
 
+    def test_restart_guidance_keeps_blank_clamped(self):
+        path = self.sample()
+        code, out, err = run("extract", path, "--phase", "2", "-o", self.out())
+        self.assertEqual(code, 0, err)
+        text = read(self.out())
+        self.assertIn("(LEAVE THE BLANK CLAMPED WHERE IT STOPPED)", text)
+        self.assertIn("Leave the blank clamped exactly where the job stopped", out)
+        for said in (text, out, "\n".join(nx.SAFETY)):
+            low = said.lower()
+            for banned in ("air cut", "dry run", "feed hold", "feed override", "prove out"):
+                self.assertNotIn(banned, low)
+
     def test_no_comments_option(self):
         path = self.sample()
         code, _, err = run("extract", path, "--phase", "2", "--no-comments", "-o", self.out())

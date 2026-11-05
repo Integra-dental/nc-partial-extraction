@@ -72,7 +72,7 @@ Zip the `skills/integra-dental-nc-partial-extraction` folder and upload the zip 
 
 You can also copy that folder into `~/.claude/skills/` (for you) or `.claude/skills/` in a project (for your team).
 
-Claude will map the file, ask what you need, run the script, explain the result and walk you through the prove out.
+Claude will map the file, ask what you need, run the script, explain the result and walk you through the restart.
 
 ### Command line
 
@@ -131,7 +131,7 @@ O1001
 (SOURCE SAMPLE_CROWN.NC)
 (KEEPS SOURCE LINES 249 TO 638 PHASE 2 T2)
 (ENTRY RESTART AT RAPID LINE 248)
-(PROVE OUT WITH AN AIR CUT BEFORE CUTTING)
+(LEAVE THE BLANK CLAMPED WHERE IT STOPPED)
 ...
 G90 G17 G21 G40 G80 G94
 G53 G0 Z0.
@@ -203,10 +203,10 @@ The tests build synthetic programs (three tools, rotary axes, arcs, a mid phase 
 
 **This tool writes machine code. You are responsible for every program you run.**
 
-* Always open the new program in your CAM simulator or a G-code viewer first.
-* Confirm the work offset, tool number and tool length offset on the control match the original job.
-* Prove it out with an air cut (raise the work offset in Z or use dry run), feed override low, hand on feed hold.
-* Watch the first approach move closely.
+* Always open the new program in your CAM simulator or a G-code viewer first, and check the first approach.
+* Leave the blank clamped exactly where the job stopped. Do not remove the part or the tool, or the restart will not line up.
+* Confirm the work offset, tool number and tool length offset on the control are the same as the original job.
+* Then run the restart program.
 * Never start a program in the middle of a cut without a safe Z retract first.
 
 The software is provided "as is", without warranty of any kind, as stated in the license. Integra Dental and the contributors are not liable for damage to machines, tools, material or anything else.

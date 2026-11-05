@@ -4,7 +4,7 @@
 nc_extract.py
 
 Map a Fanuc style NC (G-code) program into tool phases and operations, and
-write a new partial program that is safe to prove out: one phase, one
+write a new partial program to check and run: one phase, one
 operation, a line range, or a restart from a chosen line. The new program
 keeps the original preamble and tool change block, restores modal state
 (units, plane, distance mode, work offset, tool length offset, spindle,
@@ -20,8 +20,8 @@ Commands
   extract  FILE                 one phase, one operation, or a line range
   restart  FILE --line N        everything from line N to the end
 
-Every program this tool writes must be checked in simulation and proved out
-with an air cut before it touches material. See README.md.
+Every program this tool writes must be checked in simulation before it runs.
+Leave the blank clamped exactly where the job stopped. See README.md.
 """
 
 from __future__ import annotations
@@ -751,7 +751,7 @@ def build(an, plan, opts):
             safe_comment({"phase": "ENTRY PHASE START",
                           "rapid": "ENTRY RESTART AT RAPID LINE %d" % (plan.entry + 1 if plan.entry is not None else 0),
                           "exact": "ENTRY EXACT RESTART AT LINE %d" % (plan.body_start + 1)}[plan.mode]),
-            "(PROVE OUT WITH AN AIR CUT BEFORE CUTTING)",
+            "(LEAVE THE BLANK CLAMPED WHERE IT STOPPED)",
         ]
     out.extend(pre[:ins])
     out.extend(header)
@@ -951,10 +951,10 @@ def write_output(src, out_lines, path):
 
 
 SAFETY = [
-    "Check the new program in your CAM simulator or a G-code viewer before loading it.",
-    "Confirm the work offset, tool number and tool length offset on the control match the original job.",
-    "Run it first as an air cut (raise the work offset in Z or use dry run) with the feed override low and a hand on feed hold.",
-    "Watch the first approach move: the tool must reach the restart point from above with clearance.",
+    "Check the new program in your CAM simulator or a G-code viewer before loading it. The first approach must reach the restart point from above with clearance.",
+    "Leave the blank clamped exactly where the job stopped. Do not remove the part or the tool, or the restart will not line up.",
+    "Confirm the work offset, tool number and tool length offset on the control are the same as the original job.",
+    "Then run the restart program.",
 ]
 
 
@@ -1194,7 +1194,7 @@ def main(argv=None):
     p = argparse.ArgumentParser(
         prog="nc_extract",
         description="Map Fanuc style NC programs and write safe partial programs (one phase, one operation, "
-                    "a line range, or a restart). Always prove out the result with an air cut.")
+                    "a line range, or a restart). Check the result in simulation and keep the blank clamped where it stopped.")
     p.add_argument("--version", action="version", version="%(prog)s " + __version__)
     sub = p.add_subparsers(dest="command", required=True)
 

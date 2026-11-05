@@ -351,7 +351,7 @@ footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--stone-2); paddi
             <li><span>Pick the restart line, block number, phase or operation</span></li>
             <li><span>Write the partial program<span class="note">Preamble, tool change, restored state, safe approach, original toolpath unchanged, clean end.</span></span></li>
             <li><span>Verify its state against the original<span class="note">Nothing is saved if anything differs.</span></span></li>
-            <li><span>Air cut, then resume cutting</span></li>
+            <li><span>Resume cutting with the blank still clamped</span></li>
           </ol>
           <p class="outcome">About 16 seconds for a million line program in our tests.</p>
         </div>
@@ -398,7 +398,7 @@ footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--stone-2); paddi
       </ol>
       <div class="after">
         <span class="k">With the skill installed</span>
-        <span class="v">You do not type these. Tell Claude what happened at the machine and it maps the file, asks what it needs, runs the tool and walks you through the prove out.</span>
+        <span class="v">You do not type these. Tell Claude what happened at the machine and it maps the file, asks what it needs, runs the tool and walks you through the restart.</span>
       </div>
     </div>
   </section>
@@ -433,7 +433,7 @@ footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--stone-2); paddi
         </div>
       </div>
       <div class="callout">
-        <p><b>Always prove it out.</b> Open the new program in your CAM simulator first. Confirm the work offset, tool and length offset match the original job. Run it as an air cut with the feed override low and a hand on feed hold, and watch the first approach move.</p>
+        <p><b>Keep the blank clamped.</b> Open the new program in your CAM simulator first and check the first approach. Leave the blank clamped exactly where the job stopped, and do not remove the part or the tool, or the restart will not line up. Confirm the work offset, tool and length offset match the original job, then run the restart program.</p>
       </div>
     </div>
   </section>

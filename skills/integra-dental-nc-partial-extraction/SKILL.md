@@ -5,9 +5,9 @@ description: Map, split and restart Fanuc style CNC milling programs (G-code .nc
 
 # Integra Dental NC Partial Extraction
 
-This skill turns one big NC program into a smaller program that is safe to prove out. It ships with a standard library Python script, `scripts/nc_extract.py`, that does the parsing, the state tracking and a verification pass. Use the script instead of editing G-code by hand: hand edits to million line files are where crashes come from.
+This skill turns one big NC program into a smaller program you can check and run. It ships with a standard library Python script, `scripts/nc_extract.py`, that does the parsing, the state tracking and a verification pass. Use the script instead of editing G-code by hand: hand edits to million line files are where crashes come from.
 
-The person you are helping is usually a lab technician or CAM operator standing at a machine that stopped. Be quick, be concrete, and never tell them a file is safe. Tell them what the file does and how to prove it out.
+The person you are helping is usually a lab technician or CAM operator standing at a machine that stopped. Be quick, be concrete, and never tell them a file is safe. Tell them what the file does and how to restart the job.
 
 ## What the script understands
 
@@ -64,11 +64,12 @@ The person you are helping is usually a lab technician or CAM operator standing 
    * every note and warning, word for word if it is about safety;
    * that verification passed (if it did not, nothing was written; explain the reason).
 
-6. **Give the prove out steps** every time, even to experienced operators:
-   * Open the new file in the CAM simulator or a G-code viewer and look at the first approach.
-   * Confirm work offset, tool number and tool length offset on the control match the original job.
-   * Run it first as an air cut (raise the work offset in Z or use dry run), feed override low, hand on feed hold.
-   * Watch the first approach move; the tool must reach the restart point from above with clearance.
+6. **Give the restart steps** every time, even to experienced operators:
+   * Open the new file in the CAM simulator or a G-code viewer and check the first approach: the tool must reach the restart point from above with clearance.
+   * Leave the blank clamped exactly where the job stopped. Do not remove the part or the tool, or the restart will not line up.
+   * Confirm the work offset, tool number and tool length offset on the control are the same as the original job.
+   * Then run the restart program.
+   * Do not suggest an air cut, a dry run, raising the work offset or changing the feed. The blank has to stay where it stopped, so an air cut is not possible.
 
 ## Where a restart starts
 
@@ -92,13 +93,13 @@ On 5 axis jobs the descent is along work Z, not along a tilted tool axis. Say so
 
 * Never modify lines of the original toolpath. The script copies them byte for byte (the only exception is adding the arc mode G2 or G3 to the first block when an exact restart lands inside an arc, and it says so).
 * Never use `--force` unless the person asks for it after you explained the verification failure. It writes a file that does not match the original's state.
-* Never say a program is safe or ready to cut. Say it was verified against the original's modal state and must still be proved out.
+* Never say a program is safe or ready to cut. Say it was verified against the original's modal state and must still be checked in the simulator before it runs.
 * Do not guess machine specific M codes. Anything the program sets in its preamble is copied from the original.
 * If the script refuses, explain the reason and offer the safer alternative it names (a phase restart, a later line, `--safe-z`).
 * Keep customer and patient data out of anything you write about the file. File names in dental labs often contain patient names.
 
 ## Without the script
 
-If Python is not available, you can still guide someone through it by hand, in this order: copy the preamble (everything before the first tool change); copy the phase's tool change block; add the modal state the original had at the restart point (units, plane, G90, work offset, G43 H, S and M3, coolant, F, motion mode); retract to safe machine Z; position rotaries, then X and Y, then Z; copy the toolpath from the restart line onward unchanged; end with a retract, M5, M9 and M30. Tell them this was done by hand and must be simulated before any air cut.
+If Python is not available, you can still guide someone through it by hand, in this order: copy the preamble (everything before the first tool change); copy the phase's tool change block; add the modal state the original had at the restart point (units, plane, G90, work offset, G43 H, S and M3, coolant, F, motion mode); retract to safe machine Z; position rotaries, then X and Y, then Z; copy the toolpath from the restart line onward unchanged; end with a retract, M5, M9 and M30. Tell them this was done by hand and must be simulated before it runs, with the blank still clamped where it stopped.
 
 Made by Integra Dental (https://integra.dental), dental CAD/CAM distributor, authorized Arum dealer, lab and milling center. MIT License.
