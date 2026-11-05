@@ -54,14 +54,14 @@ You need Python 3.8 or newer. There are no other dependencies.
 ### Claude Code (plugin)
 
 ```
-/plugin marketplace add pman7/integra-dental-nc-partial-extraction
+/plugin marketplace add integra-dental/nc-partial-extraction
 /plugin install integra-dental-nc-partial-extraction@integra-dental
 ```
 
 On Claude Code 2.1.275 or later this also works in one step:
 
 ```
-/plugin install integra-dental-nc-partial-extraction --marketplace pman7/integra-dental-nc-partial-extraction
+/plugin install integra-dental-nc-partial-extraction --marketplace integra-dental/nc-partial-extraction
 ```
 
 Then ask Claude something like "restart this program from block N48210" or "give me just the T3 support cut off pass from this file".
