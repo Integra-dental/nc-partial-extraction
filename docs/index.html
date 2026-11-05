@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Integra Dental NC Partial Extraction</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Restart a dental milling job mid program, or run one tool or one operation, without recalculating the whole case in CAM. Free and open source from Integra Dental, dental CAD/CAM distributor and authorized Arum dealer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Styled after integra.dental: white pages, warm stone bands, a near black panel,
+   Inter with tight headings whose second line drops to grey, small tracked eyebrows,
+   pill buttons, thin rules, and blue kept for the logo dot and text links. */
+:root {
+  --bg: #ffffff;
+  --ink: #151719;
+  --ink-2: #55585e;
+  --muted: #65676c;
+  --soft: #83858b;
+  --line: #e6e6e6;
+  --line-strong: #151719;
+  --stone: #f4f3ef;
+  --stone-2: #e9e7e1;
+  --panel-dark: #181b20;
+  --panel-dark-ink: #ffffff;
+  --panel-dark-muted: #a9adb5;
+  --panel-dark-line: #33373f;
+  --btn: #171c24;
+  --btn-ink: #ffffff;
+  --btn-2-border: #d6d6d6;
+  --blue: #2158da;
+  --replay: #2158da;
+  --alarm: #c8102e;
+  --ok: #1e7a4c;
+  --code-bg: #181b20;
+  --code-fg: #dfe2e7;
+  --code-dim: #858a93;
+  --code-hl: #8fb0ff;
+  --code-mark: rgba(143, 176, 255, 0.07);
+  --font-sans: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111316; --ink: #eceef1; --ink-2: #b4b8bf; --muted: #a2a6ad; --soft: #7d828a;
+    --line: #2a2d33; --line-strong: #eceef1; --stone: #1a1c20; --stone-2: #24272c;
+    --panel-dark: #22252b; --panel-dark-ink: #ffffff; --panel-dark-muted: #a9adb5; --panel-dark-line: #3a3e46;
+    --btn: #f2f3f5; --btn-ink: #151719; --btn-2-border: #3a3e45;
+    --blue: #7ba0ff; --replay: #5b86ff; --alarm: #ff5468; --ok: #4cc38a;
+    --code-bg: #0c0e11; --code-fg: #dfe2e7; --code-dim: #858a93; --code-hl: #8fb0ff; --code-mark: rgba(143, 176, 255, 0.07);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111316; --ink: #eceef1; --ink-2: #b4b8bf; --muted: #a2a6ad; --soft: #7d828a;
+  --line: #2a2d33; --line-strong: #eceef1; --stone: #1a1c20; --stone-2: #24272c;
+  --panel-dark: #22252b; --panel-dark-ink: #ffffff; --panel-dark-muted: #a9adb5; --panel-dark-line: #3a3e46;
+  --btn: #f2f3f5; --btn-ink: #151719; --btn-2-border: #3a3e45;
+  --blue: #7ba0ff; --replay: #5b86ff; --alarm: #ff5468; --ok: #4cc38a;
+  --code-bg: #0c0e11; --code-fg: #dfe2e7; --code-dim: #858a93; --code-hl: #8fb0ff; --code-mark: rgba(143, 176, 255, 0.07);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 720px) {
+  .wrap { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
+}
+section { padding-block: clamp(4rem, 9vw, 7rem); }
+.band { background: var(--stone); }
+h1, h2, h3 { font-family: var(--font-sans); font-weight: 600; text-wrap: balance; margin: 0; color: var(--ink); }
+h1 { font-size: clamp(2.9rem, 7.4vw, 5.4rem); line-height: 1; letter-spacing: -0.045em; font-weight: 700; }
+h2 { font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.06; letter-spacing: -0.035em; }
+h3 { font-size: 1.2rem; line-height: 1.25; letter-spacing: -0.015em; }
+h1 .soft, h2 .soft { color: var(--soft); display: block; }
+p { margin: 0; max-width: 62ch; }
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
+code, pre, .mono { font-family: var(--font-mono); }
+.eyebrow { font: 600 0.75rem/1.2 var(--font-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+.lead { color: var(--muted); font-size: 1.15rem; line-height: 1.6; }
+.section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1.5rem 3rem; }
+.section-head .side { color: var(--muted); max-width: 34ch; }
+.section-head > div { display: grid; gap: 1.1rem; min-width: 0; }
+
+/* buttons, pills like the site */
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 1.55rem; border-radius: 999px; font: 500 1rem/1 var(--font-sans); text-decoration: none; border: 1px solid var(--btn-2-border); color: var(--ink); background: transparent; }
+.btn:hover { text-decoration: none; border-color: var(--ink); }
+.btn.primary { background: var(--btn); border-color: var(--btn); color: var(--btn-ink); }
+.btn.primary:hover { opacity: 0.88; }
+.btn.small { min-height: 40px; padding: 0 1.15rem; font-size: 0.92rem; }
+
+/* header */
+.utility { font-size: 0.8rem; color: var(--muted); }
+.utility .wrap { display: flex; justify-content: space-between; gap: 1rem; padding-block: 0.7rem 0; }
+.utility a { color: var(--muted); }
+header.top { border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem 2rem; padding-block: 0.9rem; }
+.brand { display: inline-flex; align-items: baseline; gap: 0.6rem; color: var(--ink); text-decoration: none; }
+.brand:hover { text-decoration: none; }
+.brand .word { font: 600 1.35rem/1 var(--font-sans); letter-spacing: -0.03em; }
+.brand .word i { font-style: normal; color: var(--blue); }
+.brand .tag { font-size: 0.82rem; color: var(--muted); }
+.navrow { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.6rem; }
+nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; font-size: 0.92rem; }
+nav a { color: var(--ink-2); }
+nav a:hover { color: var(--ink); text-decoration: none; }
+
+/* hero */
+.hero { padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(3rem, 6vw, 4.5rem); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 3rem 4rem; align-items: center; }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } }
+.hero-copy { display: grid; gap: 1.6rem; min-width: 0; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.hero .fine { font-size: 0.88rem; color: var(--muted); }
+
+/* program strip, a figure on stone like the site's photo cards */
+.strip-card { background: var(--stone); border-radius: 6px; padding: clamp(1.25rem, 3vw, 2rem); display: grid; gap: 1.4rem; min-width: 0; }
+.strip-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; }
+.strip-head .file { font: 500 0.92rem/1.3 var(--font-mono); }
+.strip-head .count { font: 400 0.85rem/1.3 var(--font-mono); color: var(--muted); }
+.strip { position: relative; display: flex; height: 58px; margin-top: 1.4rem; border-radius: 4px; background: var(--bg); }
+.strip .ph { display: flex; align-items: center; padding: 0 0.75rem; font: 500 0.76rem/1.1 var(--font-mono); letter-spacing: 0.04em; color: var(--ink); min-width: 0; overflow: hidden; white-space: nowrap; }
+.ph.t1 { flex: 38; background: var(--stone-2); border-radius: 4px 0 0 4px; }
+.ph.t2 { flex: 40; background: var(--bg); }
+.ph.t3 { flex: 22; background: var(--stone-2); border-radius: 0 4px 4px 0; }
+.replay { position: absolute; top: 0; bottom: 0; left: 40.2%; width: 7.4%; background: var(--replay); opacity: 0.28; }
+.alarm { position: absolute; top: -10px; bottom: -10px; left: 47.6%; width: 3px; background: var(--alarm); }
+.alarm-tag { position: absolute; top: -1.9rem; left: 47.6%; transform: translateX(-50%); font: 600 0.72rem/1 var(--font-sans); letter-spacing: 0.1em; color: var(--alarm); white-space: nowrap; }
+.strip-legend { display: grid; gap: 0.45rem; font-size: 0.9rem; color: var(--muted); }
+.key { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 2px; margin-right: 0.55rem; vertical-align: -1px; }
+.key.r { background: var(--replay); opacity: 0.55; }
+.key.a { background: var(--alarm); width: 3px; }
+.key.s { background: var(--stone-2); }
+.caption { display: grid; gap: 0.3rem; border-top: 1px solid var(--stone-2); padding-top: 1rem; }
+.caption .eyebrow { font-size: 0.7rem; }
+.caption span { font-size: 0.92rem; color: var(--ink-2); }
+
+/* one-line strip under the hero, like "One lab. Your restorative workflow." */
+.tagline { border-bottom: 1px solid var(--line); }
+.tagline .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; padding-block: 1.6rem; font-size: 0.95rem; }
+.tagline .say { color: var(--muted); }
+.tagline .say b { color: var(--ink); font-weight: 500; }
+.tagline ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin: 0; padding: 0; color: var(--ink-2); }
+
+/* compare: white card for the old way, dark panel for this tool */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 1.25rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.lane { border-radius: 6px; padding: clamp(1.5rem, 3.5vw, 2.6rem); background: var(--bg); min-width: 0; display: grid; gap: 1.2rem; align-content: start; }
+.lane.new { background: var(--panel-dark); color: var(--panel-dark-ink); }
+.lane.new h3 { color: var(--panel-dark-ink); }
+.lane h3 { font-size: 1.55rem; letter-spacing: -0.03em; }
+.lane .sub { color: var(--muted); }
+.lane.new .sub, .lane.new .note { color: var(--panel-dark-muted); }
+.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.5rem; padding-block: 0.8rem; border-top: 1px solid var(--line); }
+.lane.new .steps li { border-color: var(--panel-dark-line); }
+.steps li::before { content: counter(s, decimal-leading-zero); font: 500 0.8rem/1.9 var(--font-sans); color: var(--soft); }
+.lane.new .steps li::before { color: var(--panel-dark-muted); }
+.steps li span { min-width: 0; }
+.steps li .note { display: block; font-size: 0.9rem; color: var(--muted); }
+.lane .outcome { padding-top: 1.1rem; border-top: 1px solid var(--line-strong); font-weight: 600; }
+.lane.new .outcome { border-color: var(--panel-dark-ink); }
+
+/* anatomy */
+.anatomy { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 2rem 3.5rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); align-items: start; }
+@media (max-width: 900px) { .anatomy { grid-template-columns: minmax(0, 1fr); } }
+.code { background: var(--code-bg); color: var(--code-fg); border-radius: 6px; overflow-x: auto; font: 400 0.84rem/1.6 var(--font-mono); padding: 1.2rem 0; margin: 0; }
+.code .ln { display: block; padding: 0 1.25rem; white-space: pre; }
+.code .c { color: var(--code-dim); }
+.code .mark { border-left: 3px solid var(--code-hl); padding-left: calc(1.25rem - 3px); background: var(--code-mark); }
+.code .tag { color: var(--code-hl); }
+.parts { list-style: none; margin: 0; padding: 0; display: grid; }
+.parts li { display: grid; grid-template-columns: 0.5rem 1fr; gap: 1rem; padding-block: 1rem; border-top: 1px solid var(--line); }
+.parts li:first-child { border-top-color: var(--line-strong); }
+.parts li::before { content: ""; border-radius: 2px; background: var(--line); }
+.parts li.hl::before { background: var(--blue); }
+.parts b { display: block; font-weight: 600; letter-spacing: -0.01em; }
+.parts span span { color: var(--muted); font-size: 0.96rem; }
+
+/* jobs, numbered like the site's three steps */
+.jobs { list-style: none; margin: clamp(2.5rem, 5vw, 3.5rem) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 2rem 2.5rem; }
+.job { display: grid; gap: 0.75rem; align-content: start; min-width: 0; }
+.job .num { font-size: 0.85rem; color: var(--ink-2); }
+.job p { color: var(--muted); font-size: 0.96rem; }
+.job code { font-size: 0.8rem; background: var(--bg); border-radius: 999px; padding: 0.45rem 0.9rem; display: block; overflow-x: auto; white-space: nowrap; color: var(--ink); }
+.after { margin-top: 2.5rem; padding-top: 1.4rem; border-top: 1px solid var(--stone-2); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; font-size: 0.95rem; }
+.after .k { font-weight: 500; }
+.after .v { color: var(--muted); max-width: 70ch; }
+
+/* safety */
+.safety { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 2rem 3.5rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.safety .col { display: grid; gap: 1rem; align-content: start; min-width: 0; }
+.checklist { list-style: none; margin: 0; padding: 0; display: grid; }
+.checklist li { display: grid; grid-template-columns: 1.6rem 1fr; gap: 0.5rem; padding-block: 0.8rem; border-top: 1px solid var(--line); }
+.checklist.ok li::before { content: "\2713"; color: var(--ok); font-weight: 700; }
+.checklist.stop li::before { content: "\25A0"; color: var(--alarm); font-size: 0.75rem; line-height: 2.1; }
+.callout { margin-top: 2.5rem; border-radius: 6px; padding: clamp(1.4rem, 3vw, 2rem); background: var(--stone); border-left: 3px solid var(--alarm); }
+.callout b { color: var(--alarm); font-weight: 600; }
+
+/* install */
+.install { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.25rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.install .box { background: var(--bg); border-radius: 6px; padding: clamp(1.4rem, 3vw, 2rem); display: grid; gap: 0.9rem; align-content: start; min-width: 0; }
+.install pre { margin: 0; background: var(--code-bg); color: var(--code-fg); border-radius: 6px; padding: 0.9rem 1rem; overflow-x: auto; font-size: 0.82rem; line-height: 1.6; }
+.install p { color: var(--muted); font-size: 0.96rem; }
+.install p code { font-size: 0.85em; color: var(--ink); }
+
+/* closing call, centered like "Start with Integra." */
+.closing { text-align: center; }
+.closing .wrap { display: grid; justify-items: center; gap: 1.2rem; }
+.closing p { color: var(--muted); }
+.closing .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-top: 0.5rem; }
+
+footer { background: var(--stone); }
+footer .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 2rem 3rem; padding-block: 3.5rem 2rem; font-size: 0.92rem; }
+footer .brand .word { font-size: 1.2rem; }
+footer h2 { font-size: 0.85rem; letter-spacing: 0; font-weight: 600; margin-bottom: 0.6rem; }
+footer p { color: var(--muted); }
+footer .legal { grid-column: 1 / -1; border-top: 1px solid var(--stone-2); padding-top: 1.4rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 2rem; color: var(--muted); font-size: 0.82rem; }
+
+@media (max-width: 560px) {
+  .strip .ph { font-size: 0.66rem; padding: 0 0.4rem; }
+  .ph.t3 span.long { display: none; }
+  .brand .tag { display: none; }
+  .closing br { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .replay { animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 0.28; } 50% { opacity: 0.45; } }
+}
+</style>
+</head>
+<body>
+
+<div class="utility">
+  <div class="wrap">
+    <span>Dental laboratory + CAD/CAM supply</span>
+    <a href="https://integra.dental">integra.dental</a>
+  </div>
+</div>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="https://integra.dental"><span class="word">integra<i>.</i>dental</span><span class="tag">Dental CAD/CAM distributor</span></a>
+    <div class="navrow">
+      <nav aria-label="Sections">
+        <a href="#problem">The problem</a>
+        <a href="#file">The new file</a>
+        <a href="#safety">Safety</a>
+      </nav>
+      <a class="btn primary small" href="#install">Install the skill</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Integra Dental NC Partial Extraction</p>
+        <h1>Restart the cut.<span class="soft">Not the whole job.</span></h1>
+        <p class="lead">When a mill stops halfway through a long zirconia job, you should not have to go back to CAM, recalculate every toolpath and run roughing again. This tool edits the program you already have: it writes a new file that starts where you need it, with the machine state the original had at that point, and checks it before it saves.</p>
+        <div class="actions">
+          <a class="btn primary" href="#install">Install the skill</a>
+          <a class="btn" href="#problem">See how it works</a>
+        </div>
+        <p class="fine">Free and open source from Integra Dental, dental CAD/CAM distributor and authorized Arum dealer.</p>
+      </div>
+
+      <div class="strip-card" role="figure" aria-label="A program of 1,012,365 lines in three tool phases, with an alarm at line 482,113 during T2 and a restart from the last rapid move before it">
+        <div class="strip-head">
+          <span class="file">CASE_4UNIT_BRIDGE.nc</span>
+          <span class="count">1,012,365 lines, 3 tools</span>
+        </div>
+        <div class="strip">
+          <div class="ph t1">T1 ROUGHING</div>
+          <div class="ph t2">T2 FINISHING</div>
+          <div class="ph t3">T3 <span class="long">&nbsp;SUPPORT CUT OFF</span></div>
+          <div class="replay" aria-hidden="true"></div>
+          <div class="alarm" aria-hidden="true"></div>
+          <div class="alarm-tag" aria-hidden="true">AIR ALARM, LINE 482,113</div>
+        </div>
+        <div class="strip-legend">
+          <span><i class="key a"></i>Where the mill stopped</span>
+          <span><i class="key r"></i>Replayed safely from the last rapid move</span>
+          <span><i class="key s"></i>T1 never runs again</span>
+        </div>
+        <div class="caption">
+          <span class="eyebrow">At the mill</span>
+          <span>One alarm at line 482,113. The restart picks up just before it.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tagline">
+    <div class="wrap">
+      <span class="say">One program. <b>Only the part you need.</b></span>
+      <ul>
+        <li>Restart after a stop</li>
+        <li>One tool</li>
+        <li>One operation</li>
+        <li>Line ranges</li>
+        <li>File checks</li>
+      </ul>
+    </div>
+  </div>
+
+  <section id="problem" class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The problem</p>
+          <h2>Two ways back from a stop.<span class="soft">Only one reruns the whole case.</span></h2>
+        </div>
+        <p class="side">An air pressure alarm, a broken tool or a power cut leaves a program half done. The usual fix treats it as new work. This tool treats it as an edit.</p>
+      </div>
+      <div class="compare">
+        <div class="lane">
+          <h3>Back to CAM</h3>
+          <p class="sub">Recalculate and repost the whole job</p>
+          <ol class="steps">
+            <li><span>Open the case again in CAM</span></li>
+            <li><span>Recalculate every toolpath<span class="note">The CAM station is busy for the full calculation again.</span></span></li>
+            <li><span>Post a new NC file</span></li>
+            <li><span>Transfer it, reload it, check offsets</span></li>
+            <li><span>Run T1 roughing again<span class="note">In air if you are lucky, in material if you are not.</span></span></li>
+            <li><span>Finally reach line 482,113 again</span></li>
+          </ol>
+          <p class="outcome">Everything before the alarm runs again.</p>
+        </div>
+        <div class="lane new">
+          <h3>Integra Dental NC Partial Extraction</h3>
+          <p class="sub">Edit the program you already have</p>
+          <ol class="steps">
+            <li><span>Map the program into tool phases and operations</span></li>
+            <li><span>Pick the restart line, block number, phase or operation</span></li>
+            <li><span>Write the partial program<span class="note">Preamble, tool change, restored state, safe approach, original toolpath unchanged, clean end.</span></span></li>
+            <li><span>Verify its state against the original<span class="note">Nothing is saved if anything differs.</span></span></li>
+            <li><span>Air cut, then resume cutting</span></li>
+          </ol>
+          <p class="outcome">About 16 seconds for a million line program in our tests.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="file">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">The new file</p>
+          <h2>What a restart program contains.<span class="soft">Line by line.</span></h2>
+        </div>
+        <p class="side">The start of a real output from the synthetic sample in the repository, restarted at line 300 during T2. The marked lines are the ones the tool adds.</p>
+      </div>
+      <div class="anatomy">
+<pre class="code" aria-label="Example restart program"><span class="ln">%</span><span class="ln">O1001</span><span class="ln mark c">(PARTIAL PROGRAM BY INTEGRA DENTAL NC EXTRACTION V0.1.0)</span><span class="ln mark c">(KEEPS SOURCE LINES 249 TO 638 PHASE 2 T2)</span><span class="ln mark c">(ENTRY RESTART AT RAPID LINE 248)</span><span class="ln">G90 G17 G21 G40 G80 G94</span><span class="ln">G53 G0 Z0.</span><span class="ln mark"><span class="tag">G54</span>                     <span class="c">(set in T1, restored)</span></span><span class="ln">T2 M6</span><span class="ln">T3</span><span class="ln">S24000 M3</span><span class="ln">M8</span><span class="ln">G0 A0. B0.</span><span class="ln">G0 X0. Y0.</span><span class="ln">G43 H2 Z15.</span><span class="ln mark"><span class="tag">S22000 M3</span>               <span class="c">(changed mid phase)</span></span><span class="ln mark"><span class="tag">G53 G0 Z0.</span>              <span class="c">(safe retract)</span></span><span class="ln mark"><span class="tag">G0 A15. B90.</span>            <span class="c">(rotaries at height)</span></span><span class="ln mark"><span class="tag">G0 X-6. Y-6.</span></span><span class="ln mark"><span class="tag">G0 Z2.</span>                  <span class="c">(then down in Z)</span></span><span class="ln mark"><span class="tag">G0 F1800.</span></span><span class="ln">G1 Z-1.500 F600.0       <span class="c">(original toolpath)</span></span><span class="ln">G1 X6.000 Y-6.000 F1200.0</span><span class="ln">X6.000 Y-5.600</span><span class="ln c">...</span><span class="ln">M30</span><span class="ln">%</span></pre>
+        <ul class="parts">
+          <li><span><b>Original preamble</b><span>Program number, units, plane and anything machine specific, copied as is.</span></span></li>
+          <li><span><b>The phase's own tool change</b><span>T2, spindle, coolant and length offset exactly as the CAM post wrote them.</span></span></li>
+          <li class="hl"><span><b>State the original had at that point</b><span>Work offset set by an earlier tool, a speed changed mid phase, coolant, feed and motion mode.</span></span></li>
+          <li class="hl"><span><b>Safe approach</b><span>Retract to your own machine Z, turn the rotary axes up there, position X and Y, then come down in Z.</span></span></li>
+          <li><span><b>Original toolpath, byte for byte</b><span>Starting from the last rapid move before the stop, so the tool comes in the way CAM planned it.</span></span></li>
+          <li><span><b>Clean end</b><span>Retract, M5, M9 and M30 when your selection does not already include the program end.</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="jobs" class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">What you can ask for</p>
+          <h2>Four everyday jobs.<span class="soft">One file you already have.</span></h2>
+        </div>
+      </div>
+      <ol class="jobs">
+        <li class="job"><span class="num">01</span><h3>Restart after a stop</h3><p>From a line or a block number to the end, or only to the end of the phase.</p><code>restart JOB.nc --block 48210</code></li>
+        <li class="job"><span class="num">02</span><h3>Run one tool</h3><p>Rerun a finishing tool, or one phase of several, without the others.</p><code>extract JOB.nc --tool T2</code></li>
+        <li class="job"><span class="num">03</span><h3>Run one operation</h3><p>The final support cut off pass so the parts drop, or any operation CAM named.</p><code>extract JOB.nc --op-match support</code></li>
+        <li class="job"><span class="num">04</span><h3>Check a file that won't load</h3><p>Missing M30, code after the end, stray characters, mixed line endings.</p><code>check JOB.nc</code></li>
+      </ol>
+      <div class="after">
+        <span class="k">With the skill installed</span>
+        <span class="v">You do not type these. Tell Claude what happened at the machine and it maps the file, asks what it needs, runs the tool and walks you through the prove out.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="safety">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Safety</p>
+          <h2>Built to refuse a bad restart.<span class="soft">And to say why.</span></h2>
+        </div>
+      </div>
+      <div class="safety">
+        <div class="col">
+          <h3>Checks on every file</h3>
+          <ul class="checklist ok">
+            <li><span>Simulates the new program and compares units, plane, work offset, tool, length offset, spindle, coolant, feed, motion mode and every axis position with the original at the restart point.</span></li>
+            <li><span>Copies the original toolpath lines unchanged and confirms it did.</span></li>
+            <li><span>Never overwrites your source file.</span></li>
+            <li><span>Keeps your line endings and always writes a decimal point in the moves it adds.</span></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h3>Refuses, and explains</h3>
+          <ul class="checklist stop">
+            <li><span>A restart inside G91 incremental moves.</span></li>
+            <li><span>A restart inside an active drilling cycle.</span></li>
+            <li><span>A restart with cutter compensation on.</span></li>
+            <li><span>A restart with coordinate rotation, scaling, G52 or G92 active.</span></li>
+            <li><span>A restart with no safe retract known, until you give one.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">
+        <p><b>Always prove it out.</b> Open the new program in your CAM simulator first. Confirm the work offset, tool and length offset match the original job. Run it as an air cut with the feed override low and a hand on feed hold, and watch the first approach move.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="band">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Install</p>
+          <h2>Free and MIT licensed.<span class="soft">No dependencies.</span></h2>
+        </div>
+        <p class="side">Source, tests and synthetic sample programs are on <a href="https://github.com/pman7/integra-dental-nc-partial-extraction">GitHub</a>.</p>
+      </div>
+      <div class="install">
+        <div class="box">
+          <h3>Claude Code</h3>
+          <p>Add the marketplace and install the plugin.</p>
+<pre>/plugin marketplace add pman7/integra-dental-nc-partial-extraction
+/plugin install integra-dental-nc-partial-extraction@integra-dental</pre>
+        </div>
+        <div class="box">
+          <h3>Claude apps</h3>
+          <p>Zip the <code>skills/integra-dental-nc-partial-extraction</code> folder and upload it as a skill in Claude's settings, under Capabilities. Code execution must be on.</p>
+        </div>
+        <div class="box">
+          <h3>Command line</h3>
+          <p>Python 3.8 or newer, standard library only.</p>
+<pre>python3 skills/integra-dental-nc-partial-extraction/scripts/nc_extract.py map JOB.nc</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <p class="eyebrow">Looking at a new mill or need CAM help</p>
+      <h2>Start with Integra.</h2>
+      <p>We sell, install and support Arum milling systems,<br>train operators and mill for labs every day.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://integra.dental">Visit integra.dental</a>
+        <a class="btn" href="https://github.com/pman7/integra-dental-nc-partial-extraction">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="brand" href="https://integra.dental"><span class="word">integra<i>.</i>dental</span></a>
+      <p style="margin-top:0.8rem">Dental CAD/CAM distributor and authorized Arum dealer, with a lab and milling center in Bellevue, Washington.</p>
+    </div>
+    <div>
+      <h2>This tool</h2>
+      <p><a href="#problem">The problem</a><br><a href="#file">The new file</a><br><a href="#safety">Safety</a><br><a href="#install">Install</a></p>
+    </div>
+    <div>
+      <h2>License</h2>
+      <p>MIT License. Provided as is, without warranty. Not made or endorsed by any machine, control or CAM maker.</p>
+    </div>
+    <div class="legal">
+      <span>&copy; 2026 Integra Dental &middot; Nova Dental LLC</span>
+      <span>Bellevue, Washington</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

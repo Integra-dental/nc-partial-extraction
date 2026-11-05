@@ -1,0 +1,24 @@
+{
+  "name": "integra-dental",
+  "owner": {
+    "name": "Integra Dental"
+  },
+  "metadata": {
+    "description": "Free tools for dental labs and milling centers from Integra Dental, dental CAD/CAM distributor and authorized Arum dealer (https://integra.dental).",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "integra-dental-nc-partial-extraction",
+      "source": "./",
+      "description": "Restart, split and extract Fanuc style CNC milling programs safely, without recalculating the whole job in CAM.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Integra Dental",
+        "url": "https://integra.dental"
+      },
+      "category": "manufacturing",
+      "keywords": ["cnc", "gcode", "dental", "milling", "cam", "restart"]
+    }
+  ]
+}

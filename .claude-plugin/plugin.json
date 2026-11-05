@@ -1,0 +1,12 @@
+{
+  "name": "integra-dental-nc-partial-extraction",
+  "version": "0.1.0",
+  "description": "Restart, split and extract Fanuc style CNC milling programs (dental CAM G-code) safely, without recalculating the whole job in CAM.",
+  "author": {
+    "name": "Integra Dental",
+    "url": "https://integra.dental"
+  },
+  "homepage": "https://integra.dental",
+  "license": "MIT",
+  "keywords": ["cnc", "gcode", "nc", "dental", "milling", "cam", "restart", "millbox", "arum", "5-axis"]
+}
